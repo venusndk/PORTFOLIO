@@ -5,16 +5,16 @@ import { ExternalLink, Sparkles } from "lucide-react";
 const projects = [
   {
     title: "PC Maintenance System",
-    desc: "JSP/Servlet inventory & assignment system with real-time tracking",
+    desc: "PC inventory & assignment system with real-time tracking and management dashboard",
     img: "/assets/pc.jpg",
 
-    tags: ["JSP", "Servlet", "MySQL"],
+    tags: ["React", "Tailwind CSS", "MySQL"],
     gradient: "from-blue-600 to-cyan-600",
   },
   {
-    title: "Event Management",
-    desc: "Event booking & updates platform with live notifications",
-    img: "/assets/event.jpg",
+    title: "School Management System",
+    desc: "Student, staff & academic records management platform with real-time updates",
+    img: "/assets/school.png",
 
     tags: ["React", "Node.js", "PostgreSQL"],
     gradient: "from-purple-600 to-pink-600",
