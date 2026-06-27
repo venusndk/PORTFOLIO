@@ -1,13 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Sparkles, Rocket } from "lucide-react";
+import { ExternalLink, Sparkles } from "lucide-react";
 
 const projects = [
   {
     title: "PC Maintenance System",
     desc: "JSP/Servlet inventory & assignment system with real-time tracking",
     img: "/assets/pc.jpg",
-    github: "https://github.com/venusndk",
+
     tags: ["JSP", "Servlet", "MySQL"],
     gradient: "from-blue-600 to-cyan-600",
   },
@@ -15,7 +15,7 @@ const projects = [
     title: "Event Management",
     desc: "Event booking & updates platform with live notifications",
     img: "/assets/event.jpg",
-    github: "https://github.com/venusndk",
+
     tags: ["React", "Node.js", "PostgreSQL"],
     gradient: "from-purple-600 to-pink-600",
   },
@@ -23,7 +23,7 @@ const projects = [
     title: "Weather Dashboard",
     desc: "Location-based weather forecasting with interactive charts",
     img: "/assets/weather.jpg",
-    github: "https://github.com/venusndk",
+
     tags: ["TypeScript", "API", "Charts.js"],
     gradient: "from-green-600 to-teal-600",
   },
@@ -31,7 +31,7 @@ const projects = [
     title: "CampChat",
     desc: "Chatting platform like WhatsApp with direct message translation based on user preference",
     img: "/assets/campchat.svg",
-    github: "https://github.com/venusndk",
+
     tags: ["Messaging", "Translation", "Real-Time"],
     gradient: "from-cyan-600 to-blue-600",
   },
@@ -39,7 +39,7 @@ const projects = [
     title: "DGL",
     desc: "Driver Garage Linker mobile application to connect stranded drivers with nearby garages",
     img: "/assets/dgl.svg",
-    github: "https://github.com/venusndk",
+
     tags: ["Mobile App", "GPS", "Garage Network"],
     gradient: "from-orange-600 to-rose-600",
   },
@@ -47,7 +47,7 @@ const projects = [
     title: "SORP",
     desc: "Staff Operation and Reporting Platform for streamlined operations and reporting workflows",
     img: "/assets/sorp.svg",
-    github: "https://github.com/venusndk",
+
     tags: ["Operations", "Reporting", "Workflow"],
     gradient: "from-violet-600 to-fuchsia-600",
   },
@@ -218,17 +218,6 @@ const Projects: React.FC = () => {
                     >
                       <span>View Live</span>
                       <ExternalLink size={14} className="sm:w-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform duration-300" />
-                    </motion.a>
-
-                    <motion.a
-                      href={project.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center justify-center px-3 py-2 sm:px-4 sm:py-3 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl hover:border-gray-900 dark:hover:border-white transition-all duration-300 group/btn"
-                    >
-                      <Github size={16} className="sm:w-5 text-gray-700 dark:text-gray-300 group-hover/btn:text-gray-900 dark:group-hover/btn:text-white transition-colors" />
                     </motion.a>
                   </div>
                 </div>
