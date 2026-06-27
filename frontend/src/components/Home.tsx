@@ -6,7 +6,7 @@ const Home: React.FC = () => {
   return (
     <section
       id="home"
-      className="min-h-screen relative overflow-hidden flex items-center justify-center text-white py-20 lg:py-0"
+      className="min-h-screen relative overflow-hidden flex items-center justify-center text-white py-8 md:py-20 lg:py-0"
     >
       {/* Background Layer */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900">
