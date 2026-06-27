@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Linkedin, Mail, MessageCircle, Github, Send, Heart, Sparkles, ArrowUp } from "lucide-react";
+import { Linkedin, Mail, MessageCircle, Github, Send, Heart, Sparkles } from "lucide-react";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -16,11 +16,7 @@ const Footer: React.FC = () => {
     }
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  return (
+return (
     <footer className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-black text-gray-300 pt-20 pb-8 overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -229,7 +225,7 @@ const Footer: React.FC = () => {
               Newsletter
             </h4>
             <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-              Subscribe for updates on new projects, articles, and tech insights.
+              Subscribe for updates on new projects, and tech insights.
             </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
               <div className="relative">
@@ -290,14 +286,14 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Copyright & Back to Top */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Copyright */}
+        <div className="flex items-center justify-center">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-gray-500 text-sm text-center sm:text-left"
+            className="text-gray-500 text-sm text-center"
           >
             &copy; {currentYear}{" "}
             <span className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
@@ -305,21 +301,6 @@ const Footer: React.FC = () => {
             </span>
             . All rights reserved.
           </motion.p>
-
-          <motion.button
-            onClick={scrollToTop}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl font-semibold text-sm shadow-lg hover:shadow-blue-500/50 transition-all duration-300 group"
-          >
-            <span>GOES UP</span>
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <ArrowUp size={16} />
-            </motion.div>
-          </motion.button>
         </div>
       </div>
     </footer>
