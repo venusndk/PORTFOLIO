@@ -101,23 +101,20 @@ const Navbar: React.FC = () => {
           whileTap={{ scale: 0.95 }}
           className="relative group select-none flex-shrink-0"
         >
-          <div className="relative flex items-center">
-            {/* Glow on hover */}
-            <motion.div
-              className="absolute -inset-1 sm:-inset-2 bg-gradient-to-r from-green-400/20 via-blue-500/20 to-purple-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            {/* Logo Text */}
-            <span className="relative text-xl sm:text-2xl lg:text-3xl font-black tracking-tight">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">
-                Ven
+          <div className="relative inline-flex">
+            {/* Gradient border */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-xl" />
+            {/* Inner dark box */}
+            <div className="relative m-[1.5px] bg-white/90 dark:bg-gray-950 rounded-[10px] px-3 py-1.5">
+              <span className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">
+                  Ven
+                </span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600">
+                  NDIK
+                </span>
               </span>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600">
-                NDIK
-              </span>
-            </span>
+            </div>
           </div>
         </motion.a>
 
@@ -132,20 +129,27 @@ const Navbar: React.FC = () => {
                 <motion.li
                   key={link}
                   ref={(el) => (linkRefs.current[index] = el)}
-                  className="relative cursor-pointer px-3 py-2 lg:px-4"
+                  className="relative cursor-pointer"
                   onClick={() => scrollToSection(id)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span
-                    className={`relative z-10 transition-all duration-300 text-sm lg:text-base font-bold uppercase ${
-                      isActive
-                        ? "text-blue-600 dark:text-green-400"
-                        : "hover:text-blue-500 dark:hover:text-green-400"
-                    }`}
-                  >
-                    {link}
-                  </span>
+                  {isActive ? (
+                    <div className="relative inline-flex">
+                      {/* Gradient border */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-lg" />
+                      {/* Inner box */}
+                      <div className="relative m-[1.5px] bg-white dark:bg-gray-950 rounded-[5px] px-3 lg:px-4 py-1.5">
+                        <span className="text-sm lg:text-base font-bold uppercase text-green-400">
+                          {link}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <span className="block px-3 lg:px-4 py-2 text-sm lg:text-base font-bold uppercase text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-green-400 transition-colors duration-300">
+                      {link}
+                    </span>
+                  )}
                 </motion.li>
               );
             })}

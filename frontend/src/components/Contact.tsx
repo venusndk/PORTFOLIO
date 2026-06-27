@@ -100,16 +100,15 @@ const Contact: React.FC = () => {
               <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
               
               <div className="relative z-10">
-                <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                  <span className="w-2 h-8 bg-gradient-to-b from-blue-400 to-purple-500 rounded-full"></span>
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
                   Send a Message
                 </h3>
 
                 <div className="space-y-4 sm:space-y-5">
                   {/* Name Input */}
                   <div className="group/input">
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                      <span className="text-blue-400">👤</span> Full Name
+                    <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
+                      Full Name
                     </label>
                     <input
                       name="fullName"
@@ -123,8 +122,8 @@ const Contact: React.FC = () => {
 
                   {/* Email Input */}
                   <div className="group/input">
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                      <span className="text-purple-400">✉️</span> Email Address
+                    <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
+                      Email Address
                     </label>
                     <input
                       name="email"
@@ -139,8 +138,8 @@ const Contact: React.FC = () => {
 
                   {/* Subject Input */}
                   <div className="group/input">
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                      <span className="text-pink-400">📋</span> Subject
+                    <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
+                      Subject
                     </label>
                     <input
                       name="subject"
@@ -153,8 +152,8 @@ const Contact: React.FC = () => {
 
                   {/* Message Textarea */}
                   <div className="group/input">
-                    <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2 flex items-center gap-2">
-                      <span className="text-green-400">💬</span> Your Message
+                    <label className="block text-xs sm:text-sm font-medium text-gray-300 mb-1.5 sm:mb-2">
+                      Your Message
                     </label>
                     <textarea
                       name="message"
@@ -183,9 +182,7 @@ const Contact: React.FC = () => {
                         Sending...
                       </>
                     ) : (
-                      <>
-                        <span>Send Message</span> <span className="text-xl">📩</span>
-                      </>
+                      <span>Send Message</span>
                     )}
                   </button>
                 </div>

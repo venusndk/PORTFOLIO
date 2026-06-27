@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Target, Users, Sparkles, Zap, Trophy, Briefcase, Code } from "lucide-react";
+import { Target, Users, Sparkles, Zap, Trophy, Briefcase } from "lucide-react";
 
 const About: React.FC = () => {
   const strengths = [
@@ -125,12 +125,6 @@ const About: React.FC = () => {
                     <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-gray-900 dark:text-white mb-2">
                       Venuste NDIKUMANA
                     </h3>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg">
-                      <Code size={12} className="sm:w-3.5 text-blue-600 dark:text-blue-400" />
-                      <span className="text-xs sm:text-sm font-bold text-blue-700 dark:text-blue-300">
-                        Cyberguard
-                      </span>
-                    </div>
                   </div>
                 </div>
 

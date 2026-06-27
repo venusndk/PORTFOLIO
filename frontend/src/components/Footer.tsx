@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Linkedin, Mail, MessageCircle, Github, Send, Heart, Sparkles } from "lucide-react";
+import { Linkedin, Mail, MessageCircle, Github, Send, Sparkles } from "lucide-react";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -77,33 +77,27 @@ return (
             viewport={{ once: true }}
             className="space-y-5"
           >
-            <div className="flex items-center gap-3">
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-                className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 via-blue-500 to-purple-500 flex items-center justify-center shadow-lg"
-              >
-                <span className="text-2xl font-black text-white">V</span>
-              </motion.div>
-              <h3 className="text-2xl sm:text-3xl font-black">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">Ven</span>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">NDIK</span>
-              </h3>
-            </div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="relative inline-flex select-none"
+            >
+              {/* Gradient border */}
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-xl" />
+              {/* Inner dark box */}
+              <div className="relative m-[1.5px] bg-gray-950 rounded-[10px] px-4 py-2">
+                <span className="text-2xl sm:text-3xl font-black tracking-tight">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">Ven</span>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600">NDIK</span>
+                </span>
+              </div>
+            </motion.div>
             <p className="text-gray-400 leading-relaxed text-sm">
               Full Stack Developer & University of Rwanda student. Passionate about
               creating efficient, modern, and accessible web experiences that make a difference.
             </p>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span>Made with</span>
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                <Heart size={14} className="text-red-500 fill-red-500" />
-              </motion.div>
-              <span> and sleepless nights</span>
-            </div>
+            <p className="text-sm font-bold uppercase text-gray-400">"We Are Born To Code"</p>
           </motion.div>
 
           {/* Quick Links */}
