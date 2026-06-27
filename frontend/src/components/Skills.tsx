@@ -12,7 +12,7 @@ import {
   SiTailwindcss,
   SiFramer,
 } from "react-icons/si";
-import { Code2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 const skills = [
   { 
@@ -164,7 +164,7 @@ const Skills: React.FC = () => {
         </motion.div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
           {skills.map((skill, index) => (
             <motion.div
               key={skill.name}
@@ -272,39 +272,6 @@ const Skills: React.FC = () => {
           ))}
         </div>
 
-        {/* Bottom Stats/Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          viewport={{ once: true }}
-          className="mt-12 sm:mt-16 text-center"
-        >
-          <div className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-white dark:bg-gray-800/80 backdrop-blur-xl rounded-full shadow-lg sm:shadow-xl border border-gray-200/50 dark:border-gray-700/50">
-            <Code2 className="text-blue-600 dark:text-blue-400 sm:w-6" size={18} />
-            <div className="flex items-center gap-1 sm:gap-2">
-              <span className="text-xl sm:text-2xl lg:text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-                {skills.length}+
-              </span>
-              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-semibold whitespace-nowrap">
-                Technologies Mastered
-              </span>
-            </div>
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360]
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            >
-              <Sparkles className="text-yellow-500 sm:w-5" size={16} />
-            </motion.div>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

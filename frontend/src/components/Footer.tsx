@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
   };
 
 return (
-    <footer className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-black text-gray-300 pt-20 pb-8 overflow-hidden">
+    <footer className="relative bg-gradient-to-b from-gray-950 via-gray-900 to-black text-gray-300 pt-12 sm:pt-16 md:pt-20 pb-6 sm:pb-8 overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -67,8 +67,8 @@ return (
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-10 sm:mb-14 lg:mb-16">
           {/* Brand Section */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -85,7 +85,7 @@ return (
               >
                 <span className="text-2xl font-black text-white">V</span>
               </motion.div>
-              <h3 className="text-3xl font-black">
+              <h3 className="text-2xl sm:text-3xl font-black">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-green-600">Ven</span>
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">NDIK</span>
               </h3>
@@ -113,7 +113,7 @@ return (
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-bold text-lg mb-5 text-white flex items-center gap-2">
+            <h4 className="font-bold text-base sm:text-lg mb-4 sm:mb-5 text-white flex items-center gap-2">
               <span className="w-1 h-6 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></span>
               Quick Links
             </h4>
@@ -157,7 +157,7 @@ return (
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-bold text-lg mb-5 text-white flex items-center gap-2">
+            <h4 className="font-bold text-base sm:text-lg mb-4 sm:mb-5 text-white flex items-center gap-2">
               <span className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></span>
               Connect
             </h4>
@@ -220,7 +220,7 @@ return (
             transition={{ duration: 0.9 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-bold text-lg mb-5 text-white flex items-center gap-2">
+            <h4 className="font-bold text-base sm:text-lg mb-4 sm:mb-5 text-white flex items-center gap-2">
               <span className="w-1 h-6 bg-gradient-to-b from-pink-500 to-red-500 rounded-full"></span>
               Newsletter
             </h4>

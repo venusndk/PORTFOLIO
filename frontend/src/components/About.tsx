@@ -37,7 +37,7 @@ const About: React.FC = () => {
   return (
     <section
       id="about"
-      className="py-16 sm:py-20 lg:py-28 relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-blue-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
+      className="py-16 sm:py-20 md:py-24 lg:py-28 relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-blue-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -99,7 +99,7 @@ const About: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-start">
           {/* Left: Introduction & Stats */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}

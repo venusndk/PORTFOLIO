@@ -57,7 +57,7 @@ const Projects: React.FC = () => {
   return (
     <section
       id="projects"
-      className="py-16 sm:py-20 lg:py-24 relative overflow-hidden bg-gradient-to-b from-purple-50/30 via-white to-pink-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
+      className="py-16 sm:py-20 md:py-22 lg:py-24 relative overflow-hidden bg-gradient-to-b from-purple-50/30 via-white to-pink-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950"
     >
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -122,7 +122,7 @@ const Projects: React.FC = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 lg:gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
@@ -145,7 +145,7 @@ const Projects: React.FC = () => {
                 <div className={`absolute -inset-0.5 bg-gradient-to-r ${project.gradient} rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-30 blur transition-opacity duration-500`}></div>
 
                 {/* Image Container */}
-                <div className="relative h-40 sm:h-48 lg:h-56 overflow-hidden">
+                <div className="relative h-40 sm:h-44 md:h-48 lg:h-56 overflow-hidden">
                   {/* Image */}
                   <motion.img
                     src={project.img}

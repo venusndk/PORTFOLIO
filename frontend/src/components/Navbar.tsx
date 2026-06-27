@@ -193,7 +193,7 @@ const Navbar: React.FC = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.4 }}
-            className="md:hidden bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-purple-500/20 shadow-2xl w-full"
+            className="md:hidden bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl border-t border-gray-200/50 dark:border-purple-500/20 shadow-2xl w-full max-h-[calc(100dvh-4rem)] overflow-y-auto"
           >
             <motion.ul
               variants={menuVariants}

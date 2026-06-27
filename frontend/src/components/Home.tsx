@@ -12,12 +12,12 @@ const Home: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900">
         {/* Gradient Orbs - Responsive sizing */}
         <motion.div
-          className="absolute top-10 left-5 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-blue-500/20 rounded-full blur-3xl"
+          className="absolute top-10 left-5 w-40 h-40 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-blue-500/20 rounded-full blur-3xl"
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
-          className="absolute bottom-10 right-5 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-purple-500/20 rounded-full blur-3xl"
+          className="absolute bottom-10 right-5 w-40 h-40 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-purple-500/20 rounded-full blur-3xl"
           animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.3, 0.5] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -43,23 +43,23 @@ const Home: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8 lg:gap-16 items-center relative z-10 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center relative z-10 w-full">
         {/* Text Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-6 lg:space-y-8 text-center lg:text-left order-2 lg:order-1"
+          className="space-y-6 lg:space-y-8 text-center md:text-left order-2 md:order-1"
         >
           {/* Heading */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight"
           >
-            <span className="block text-gray-300 text-lg sm:text-xl lg:text-2xl font-medium mb-2 whitespace-nowrap">
-              <small>"Programming isn't about what you know, it's about what you code."</small>
+            <span className="block text-gray-300 text-xs sm:text-sm lg:text-base font-medium mb-2 italic leading-snug">
+              "Programming isn't about what you know, it's about what you code."
             </span>
             <motion.span
               className="block mt-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400"
@@ -84,7 +84,7 @@ const Home: React.FC = () => {
           </motion.p>
 
           {/* CTA Buttons */}
-          <motion.div className="flex flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
+          <motion.div className="flex flex-wrap gap-3 sm:gap-4 justify-center md:justify-start">
             <motion.a
               href="/assets/resume.pdf"
               target="_blank"
@@ -116,7 +116,7 @@ const Home: React.FC = () => {
 
         {/* Image Section */}
         <motion.div
-          className="flex justify-center lg:justify-end order-1 lg:order-2 mb-8 lg:mb-0"
+          className="flex justify-center md:justify-end order-1 md:order-2 mb-6 md:mb-0"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
@@ -129,7 +129,7 @@ const Home: React.FC = () => {
               transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
-              className="absolute -inset-2 sm:-inset-4 rounded-full border-2 border-blue-400/30"
+              className="absolute -inset-1 sm:-inset-2 md:-inset-4 rounded-full border-2 border-blue-400/30"
               animate={{ scale: [1, 1.05, 1], rotate: [0, -180, -360] }}
               transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             />
@@ -138,7 +138,7 @@ const Home: React.FC = () => {
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
-              className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 lg:w-[28rem] lg:h-[28rem]"
+              className="relative w-52 h-52 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-[28rem] lg:h-[28rem]"
             >
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-1">
                 <div className="w-full h-full rounded-full bg-slate-950 p-2">
