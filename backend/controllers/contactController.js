@@ -1,6 +1,322 @@
 import { saveContact } from "../model/contactModel.js";
 import { sendEmail } from "../utils/sendEmail.js";
 
+// ─────────────────────────────────────────────
+// Admin notification email template
+// ─────────────────────────────────────────────
+const adminEmailHtml = ({ name, email, subject, message }) => `
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>New Portfolio Message</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f4f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+
+  <!-- Preheader (hidden preview text) -->
+  <div style="display:none;max-height:0;overflow:hidden;color:#f0f4f8;">
+    New message from ${name} via your portfolio contact form.
+  </div>
+
+  <!-- Wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0f4f8;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+
+        <!-- Email card -->
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;">
+
+          <!-- ── Header ── -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 50%,#2563eb 100%);border-radius:12px 12px 0 0;padding:40px 40px 36px;text-align:center;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center">
+                    <h1 style="margin:0;font-size:26px;font-weight:700;color:#ffffff;letter-spacing:-0.3px;">New Message Received</h1>
+                    <p style="margin:10px 0 0;font-size:14px;color:rgba(255,255,255,0.8);font-weight:400;">Someone reached out via your portfolio</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── Body ── -->
+          <tr>
+            <td style="background:#ffffff;padding:40px;">
+
+              <!-- Sender details -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f8faff;border:1px solid #dbeafe;border-radius:10px;margin-bottom:28px;">
+                <tr>
+                  <td style="padding:24px;">
+
+                    <p style="margin:0 0 6px;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;">Sender Details</p>
+
+                    <!-- Name row -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:16px;">
+                      <tr>
+                        <td valign="top">
+                          <p style="margin:0;font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Full Name</p>
+                          <p style="margin:2px 0 0;font-size:16px;color:#0f172a;font-weight:700;">${name}</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Divider -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:14px 0;"><hr style="border:none;border-top:1px solid #e2e8f0;margin:0;" /></td></tr></table>
+
+                    <!-- Email row -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td valign="top">
+                          <p style="margin:0;font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Email Address</p>
+                          <p style="margin:2px 0 0;font-size:15px;font-weight:600;">
+                            <a href="mailto:${email}" style="color:#1d4ed8;text-decoration:none;">${email}</a>
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    ${subject ? `
+                    <!-- Divider -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:14px 0;"><hr style="border:none;border-top:1px solid #e2e8f0;margin:0;" /></td></tr></table>
+
+                    <!-- Subject row -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td valign="top">
+                          <p style="margin:0;font-size:11px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Subject</p>
+                          <p style="margin:2px 0 0;font-size:15px;color:#0f172a;font-weight:600;">${subject}</p>
+                        </td>
+                      </tr>
+                    </table>
+                    ` : ""}
+
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Message -->
+              <p style="margin:0 0 12px;font-size:13px;font-weight:700;color:#0f172a;text-transform:uppercase;letter-spacing:0.6px;">Message</p>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #1d4ed8;border-radius:8px;padding:24px;">
+                    <p style="margin:0;font-size:15px;line-height:1.8;color:#334155;white-space:pre-wrap;">${message}</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Reply button -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:32px;">
+                <tr>
+                  <td align="center">
+                    <a href="mailto:${email}?subject=Re: ${subject || "Your message"}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-size:15px;font-weight:600;padding:14px 36px;border-radius:8px;letter-spacing:0.2px;">
+                      Reply to ${name}
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- ── Footer ── -->
+          <tr>
+            <td style="background:#f8fafc;border-top:1px solid #e2e8f0;border-radius:0 0 12px 12px;padding:24px 40px;text-align:center;">
+              <p style="margin:0;font-size:13px;color:#64748b;font-weight:500;">Sent from your portfolio contact form</p>
+              <p style="margin:6px 0 0;font-size:12px;color:#94a3b8;">${new Date().toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" })}</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
+`;
+
+// ─────────────────────────────────────────────
+// User confirmation email template
+// ─────────────────────────────────────────────
+const userEmailHtml = ({ name, subject, message }) => `
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Message Received</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f4f8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+
+  <!-- Preheader -->
+  <div style="display:none;max-height:0;overflow:hidden;color:#f0f4f8;">
+    Hi ${name}, your message has been received. I'll get back to you within 1 hour.
+  </div>
+
+  <!-- Wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f0f4f8;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
+
+        <!-- Email card -->
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;">
+
+          <!-- ── Header ── -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 50%,#9333ea 100%);border-radius:12px 12px 0 0;padding:40px 40px 36px;text-align:center;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center">
+                    <h1 style="margin:0;font-size:26px;font-weight:700;color:#ffffff;letter-spacing:-0.3px;">Message Received!</h1>
+                    <p style="margin:10px 0 0;font-size:14px;color:rgba(255,255,255,0.85);font-weight:400;">Thank you for getting in touch</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── Body ── -->
+          <tr>
+            <td style="background:#ffffff;padding:40px;">
+
+              <!-- Greeting -->
+              <p style="margin:0 0 8px;font-size:20px;font-weight:700;color:#0f172a;">Hi ${name},</p>
+              <p style="margin:0 0 28px;font-size:15px;line-height:1.7;color:#475569;">
+                Thank you for reaching out through my portfolio. I have received your message and will review it shortly. You can expect a personal response within <strong style="color:#4f46e5;">1 hour</strong>.
+              </p>
+
+              <!-- Message summary -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:10px;margin-bottom:28px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <p style="margin:0 0 16px;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;">Your Submission</p>
+
+                    ${subject ? `
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:14px;">
+                      <tr>
+                        <td width="80" valign="top">
+                          <p style="margin:0;font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">Subject</p>
+                        </td>
+                        <td valign="top">
+                          <p style="margin:0;font-size:14px;color:#0f172a;font-weight:600;">${subject}</p>
+                        </td>
+                      </tr>
+                    </table>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-bottom:14px;"><hr style="border:none;border-top:1px solid #e9d5ff;margin:0;" /></td></tr></table>
+                    ` : ""}
+
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td width="80" valign="top">
+                          <p style="margin:0;font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.4px;">Message</p>
+                        </td>
+                        <td valign="top">
+                          <p style="margin:0;font-size:14px;line-height:1.7;color:#334155;white-space:pre-wrap;">${message}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- What's next -->
+              <p style="margin:0 0 16px;font-size:13px;font-weight:700;color:#0f172a;text-transform:uppercase;letter-spacing:0.6px;">What Happens Next</p>
+
+              <!-- Step 1 -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
+                <tr>
+                  <td style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #4f46e5;border-radius:8px;padding:14px 18px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td width="28" valign="middle" style="padding-right:12px;">
+                          <div style="width:24px;height:24px;background:#4f46e5;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700;color:#fff;">1</div>
+                        </td>
+                        <td valign="middle">
+                          <p style="margin:0;font-size:14px;font-weight:600;color:#0f172a;">Message Review</p>
+                          <p style="margin:2px 0 0;font-size:13px;color:#64748b;">I will carefully read through your message</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Step 2 -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:10px;">
+                <tr>
+                  <td style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #7c3aed;border-radius:8px;padding:14px 18px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td width="28" valign="middle" style="padding-right:12px;">
+                          <div style="width:24px;height:24px;background:#7c3aed;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700;color:#fff;">2</div>
+                        </td>
+                        <td valign="middle">
+                          <p style="margin:0;font-size:14px;font-weight:600;color:#0f172a;">Quick Response</p>
+                          <p style="margin:2px 0 0;font-size:13px;color:#64748b;">You will hear back within 1 hour</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Step 3 -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:32px;">
+                <tr>
+                  <td style="background:#f8fafc;border:1px solid #e2e8f0;border-left:4px solid #9333ea;border-radius:8px;padding:14px 18px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td width="28" valign="middle" style="padding-right:12px;">
+                          <div style="width:24px;height:24px;background:#9333ea;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700;color:#fff;">3</div>
+                        </td>
+                        <td valign="middle">
+                          <p style="margin:0;font-size:14px;font-weight:600;color:#0f172a;">Personalized Reply</p>
+                          <p style="margin:2px 0 0;font-size:13px;color:#64748b;">A detailed, tailored response to your enquiry</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Signature -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #e2e8f0;padding-top:28px;">
+                <tr>
+                  <td style="padding-top:28px;">
+                    <p style="margin:0;font-size:14px;color:#475569;">Warm regards,</p>
+                    <p style="margin:6px 0 0;font-size:17px;font-weight:700;color:#0f172a;">Venuste NDIKUMANA</p>
+                    <p style="margin:3px 0 0;font-size:13px;color:#4f46e5;font-weight:500;">Full Stack Developer</p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- ── Footer ── -->
+          <tr>
+            <td style="background:#f8fafc;border-top:1px solid #e2e8f0;border-radius:0 0 12px 12px;padding:24px 40px;text-align:center;">
+              <p style="margin:0;font-size:13px;color:#64748b;">This is an automated confirmation from <strong style="color:#4f46e5;">VenNDIK Portfolio</strong></p>
+              <p style="margin:6px 0 0;font-size:12px;color:#94a3b8;">&copy; ${new Date().getFullYear()} Venuste NDIKUMANA. All rights reserved.</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
+`;
+
+// ─────────────────────────────────────────────
+// Controller
+// ─────────────────────────────────────────────
 export const submitContact = async (req, res) => {
   try {
     const { name, email, subject, message } = req.body;
@@ -17,269 +333,25 @@ export const submitContact = async (req, res) => {
       console.error("❌ Error saving contact:", storageError);
     }
 
-    // 1️⃣ Send notification email to you (admin) - ENHANCED DESIGN
+    // 1️⃣ Notify admin
     if (process.env.MY_EMAIL) {
-      console.log("Sending notification to:", process.env.MY_EMAIL);
       await sendEmail({
         to: process.env.MY_EMAIL,
-        subject: `Portfolio Message from ${name}`,
-        text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`,
-        html: `
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Portfolio Message</title>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-          </head>
-          <body style="margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: url(https://cdn.pixabay.com/photo/2012/01/09/09/59/earth-11595_1280.jpg); min-height: 100vh;">
-            <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-              <!-- Main Card -->
-              <div style="background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden; border: 1px solid rgba(255,255,255,0.3);">
-                
-                <!-- Header with Gradient -->
-                <div style="background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%); padding: 50px 40px 40px; text-align: center; position: relative;">
-                  <!-- Icon Container -->
-                  <div style="width: 100px; height: 100px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 50%; margin: 0 auto 25px; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.3);">
-                    <span style="font-size: 48px; color: white;">📩</span>
-                  </div>
-                  
-                  <h1 style="margin: 0; font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">New Message Alert</h1>
-                  <p style="margin: 12px 0 0; font-size: 16px; color: rgba(255,255,255,0.9); font-weight: 400;">From your portfolio contact form</p>
-                </div>
-
-                <!-- Content Section -->
-                <div style="padding: 50px 40px 40px;">
-                  
-                  <!-- Sender Info Card -->
-                  <div style="background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 100%); border-radius: 20px; padding: 30px; margin-bottom: 30px; border: 1px solid rgba(30, 64, 175, 0.1); box-shadow: 0 8px 25px rgba(30, 64, 175, 0.08);">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                      
-                      <!-- Name -->
-                      <div style="display: flex; align-items: center; gap: 15px;">
-                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1e40af, #3730a3); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                          <span style="font-size: 20px; color: white;">👤</span>
-                        </div>
-                        <div>
-                          <div style="font-size: 12px; color: #475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Name</div>
-                          <div style="font-size: 18px; color: #1e293b; font-weight: 700;">${name}</div>
-                        </div>
-                      </div>
-
-                      <!-- Email -->
-                      <div style="display: flex; align-items: center; gap: 15px;">
-                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1e40af, #3730a3); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                          <span style="font-size: 20px; color: white;">✉️</span>
-                        </div>
-                        <div>
-                          <div style="font-size: 12px; color: #475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Email</div>
-                          <div style="font-size: 16px; color: #1e40af; font-weight: 600;">
-                            <a href="mailto:${email}" style="color: #1e40af; text-decoration: none; font-weight: 600;">${email}</a>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                    ${subject ? `
-                    <!-- Subject -->
-                    <div style="display: flex; align-items: center; gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(30, 64, 175, 0.1);">
-                      <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1e40af, #3730a3); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 20px; color: white;">📋</span>
-                      </div>
-                      <div>
-                        <div style="font-size: 12px; color: #475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Subject</div>
-                        <div style="font-size: 16px; color: #1e293b; font-weight: 600;">${subject}</div>
-                      </div>
-                    </div>
-                    ` : ''}
-
-                  </div>
-
-                  <!-- Message Section -->
-                  <div>
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-                      <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #1e40af, #3730a3); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 18px; color: white;">💬</span>
-                      </div>
-                      <div style="font-size: 18px; color: #1e293b; font-weight: 700;">Message</div>
-                    </div>
-                    
-                    <div style="background: #f8fafc; border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
-                      <div style="font-size: 16px; line-height: 1.7; color: #374151; white-space: pre-wrap; font-family: 'Inter', sans-serif; font-weight: 400;">${message}</div>
-                    </div>
-                  </div>
-
-                  <!-- Action Button -->
-                  <div style="text-align: center; margin-top: 40px;">
-                    <a href="mailto:${email}" style="display: inline-block; background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%); color: white; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 600; font-size: 16px; box-shadow: 0 8px 25px rgba(30, 64, 175, 0.3); transition: all 0.3s ease; border: none; cursor: pointer;">
-                      <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                        <span>Reply to ${name}</span>
-                        <span style="font-size: 18px;">↗️</span>
-                      </span>
-                    </a>
-                  </div>
-
-                </div>
-
-                <!-- Footer -->
-                <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 30px 40px; border-top: 1px solid #e2e8f0;">
-                  <div style="text-align: center;">
-                    <div style="font-size: 14px; color: #475569; margin-bottom: 8px; font-weight: 500;">
-                      📧 Sent from your portfolio contact form
-                    </div>
-                    <div style="font-size: 12px; color: #6b7280;">
-                      ${new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </body>
-          </html>
-        `
+        subject: `New Portfolio Message from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject || "N/A"}\nMessage:\n${message}`,
+        html: adminEmailHtml({ name, email, subject, message }),
       });
     } else {
       console.warn("❌ MY_EMAIL is not defined in .env");
     }
 
-    // 2️⃣ Send confirmation email to user - ENHANCED DESIGN
+    // 2️⃣ Confirm to user
     if (email) {
-      console.log("Sending confirmation email to user:", email);
       await sendEmail({
         to: email,
-        subject: "Venuste NDIKUMANA",
-        text: `Hi ${name},\n\nThank you for contacting us! We have received your message and will get back to you shortly.\n\nBest regards,`,
-        html: `
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Message Received</title>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-          </head>
-          <body style="margin: 0; padding: 0; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: url(https://cdn.pixabay.com/photo/2012/01/09/09/59/earth-11595_1280.jpg); min-height: 100vh;">
-            <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
-              
-              <!-- Main Card -->
-              <div style="background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(20px); border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); overflow: hidden; border: 1px solid rgba(255,255,255,0.3);">
-                
-                <!-- Success Header -->
-                <div style="background: linear-gradient(135deg, #059669 0%, #047857 100%); padding: 50px 40px 40px; text-align: center; position: relative;">
-                  <!-- Success Icon -->
-                  <div style="width: 100px; height: 100px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 50%; margin: 0 auto 25px; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.3);">
-                    <span style="font-size: 48px; color: white;">✅</span>
-                  </div>
-                  
-                  <h1 style="margin: 0; font-size: 32px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">Message Received!</h1>
-                  <p style="margin: 12px 0 0; font-size: 16px; color: rgba(255,255,255,0.9); font-weight: 400;">We're excited to connect with you</p>
-                </div>
-
-                <!-- Content -->
-                <div style="padding: 50px 40px 40px;">
-                  
-                  <!-- Greeting -->
-                  <div style="text-align: center; margin-bottom: 40px;">
-                    <p style="margin: 0 0 20px; font-size: 20px; color: #1e293b; line-height: 1.6; font-weight: 500;">
-                      Hi <strong style="color: #059669; font-weight: 700;">${name}</strong>,
-                    </p>
-                    
-                    <p style="margin: 0; font-size: 16px; color: #475569; line-height: 1.7; max-width: 400px; margin: 0 auto; font-weight: 400;">
-                      Thank you for reaching out! We've successfully received your message and appreciate you taking the time to contact us.
-                    </p>
-                  </div>
-
-                  <!-- Message Summary Card -->
-                  <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: 20px; padding: 30px; margin: 30px 0; border: 1px solid rgba(5, 150, 105, 0.1); box-shadow: 0 8px 25px rgba(5, 150, 105, 0.08);">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                      <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #059669, #047857); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 20px; color: white;">📝</span>
-                      </div>
-                      <div style="font-size: 18px; color: #1e293b; font-weight: 700;">Your Message Summary</div>
-                    </div>
-
-                    ${subject ? `
-                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px; padding: 15px; background: rgba(255,255,255,0.8); border-radius: 12px;">
-                      <span style="font-size: 16px;">📋</span>
-                      <div>
-                        <div style="font-size: 12px; color: #475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Subject</div>
-                        <div style="font-size: 14px; color: #1e293b; font-weight: 600;">${subject}</div>
-                      </div>
-                    </div>
-                    ` : ''}
-
-                    <div style="background: rgba(255,255,255,0.8); border-radius: 12px; padding: 20px; margin-top: 15px;">
-                      <div style="font-size: 14px; line-height: 1.7; color: #374151; white-space: pre-wrap; font-family: 'Inter', sans-serif; font-weight: 400;">${message}</div>
-                    </div>
-                  </div>
-
-                  <!-- Next Steps -->
-                  <div style="background: #f8fafc; border-radius: 16px; padding: 30px; margin: 30px 0; border: 1px solid #e2e8f0;">
-                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                      <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #1d4ed8, #1e40af); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                        <span style="font-size: 20px; color: white;">⏱️</span>
-                      </div>
-                      <div style="font-size: 18px; color: #1e293b; font-weight: 700;">What Happens Next?</div>
-                    </div>
-                    
-                    <div style="display: grid; gap: 15px;">
-                      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 10px; border-left: 4px solid #059669;">
-                        <span style="font-size: 18px; color: #059669;">✓</span>
-                        <div>
-                          <div style="font-size: 14px; color: #1e293b; font-weight: 600;">Review Process</div>
-                          <div style="font-size: 13px; color: #475569;">Our team will carefully review your message</div>
-                        </div>
-                      </div>
-                      
-                      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 10px; border-left: 4px solid #1d4ed8;">
-                        <span style="font-size: 18px; color: #1d4ed8;">⏰</span>
-                        <div>
-                          <div style="font-size: 14px; color: #1e293b; font-weight: 600;">Quick Response</div>
-                          <div style="font-size: 13px; color: #475569;">You'll hear back from us within 1 hour</div>
-                        </div>
-                      </div>
-                      
-                      <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 10px; border-left: 4px solid #7c3aed;">
-                        <span style="font-size: 18px; color: #7c3aed;">💬</span>
-                        <div>
-                          <div style="font-size: 14px; color: #1e293b; font-weight: 600;">Personalized Reply</div>
-                          <div style="font-size: 13px; color: #475569;">We'll provide detailed answers to all your questions</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Closing -->
-                  <div style="text-align: center; padding-top: 20px;">
-                    <p style="margin: 0; font-size: 16px; color: #475569; line-height: 1.7; font-weight: 400;">
-                      Best regards,<br/>
-                      <strong style="color: #059669; font-size: 18px; font-weight: 700;">VenNDIK Team</strong>
-                    </p>
-                  </div>
-
-                </div>
-
-                <!-- Footer -->
-                <div style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); padding: 30px 40px; border-top: 1px solid #e2e8f0;">
-                  <div style="text-align: center;">
-                    <div style="font-size: 14px; color: #475569; margin-bottom: 8px; font-weight: 500;">
-                      Confirmation from VenNDIK Portfolio<br/>
-                      &copy; 2025 Venuste NDIKUMANA. All rights reserved.
-                    </div>
-                    <div style="font-size: 12px; color: #6b7280;">
-                      ${new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })}
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </body>
-          </html>
-        `
+        subject: `Message Received — Venuste NDIKUMANA`,
+        text: `Hi ${name},\n\nThank you for reaching out. I have received your message and will get back to you within 1 hour.\n\nWarm regards,\nVenuste NDIKUMANA`,
+        html: userEmailHtml({ name, subject, message }),
       });
     } else {
       console.warn("❌ User email is empty, skipping confirmation email");
@@ -289,12 +361,12 @@ export const submitContact = async (req, res) => {
       success: true,
       message:
         newContact?.storage === "local-file"
-          ? "Message received. PostgreSQL was unavailable, so the submission was stored locally and the emails were still processed."
+          ? "Message received. PostgreSQL was unavailable — submission stored locally and emails processed."
           : "Message received successfully",
       data: newContact,
     });
   } catch (error) {
-    console.error("❌ Error saving contact or sending emails:", error.message);
+    console.error("❌ Error in submitContact:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };
