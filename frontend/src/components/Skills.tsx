@@ -10,70 +10,72 @@ import {
   SiExpress,
   SiPostgresql,
   SiTailwindcss,
-  SiFramer,
+  SiFlutter,
 } from "react-icons/si";
 import { Sparkles } from "lucide-react";
 
+// Row 1 — Web foundations: HTML5 → CSS3 → Tailwind → JavaScript → TypeScript
+// Row 2 — Full-stack + mobile: React → Node.js → Express → PostgreSQL → Flutter & Dart
 const skills = [
-  { 
-    name: "HTML5", 
-    icon: <SiHtml5 className="text-orange-500" />, 
+  {
+    name: "HTML5",
+    icon: <SiHtml5 className="text-white" />,
     gradient: "from-orange-500 to-red-500",
     glow: "rgba(249, 115, 22, 0.4)"
   },
-  { 
-    name: "CSS3", 
-    icon: <SiCss3 className="text-blue-500" />, 
+  {
+    name: "CSS3",
+    icon: <SiCss3 className="text-white" />,
     gradient: "from-blue-500 to-blue-700",
     glow: "rgba(59, 130, 246, 0.4)"
   },
-  { 
-    name: "JavaScript", 
-    icon: <SiJavascript className="text-yellow-400" />, 
-    gradient: "from-yellow-400 to-yellow-600",
-    glow: "rgba(250, 204, 21, 0.4)"
-  },
-  { 
-    name: "TypeScript", 
-    icon: <SiTypescript className="text-blue-600" />, 
-    gradient: "from-blue-600 to-blue-800",
-    glow: "rgba(37, 99, 235, 0.4)"
-  },
-  { 
-    name: "React", 
-    icon: <SiReact className="text-cyan-400" />, 
-    gradient: "from-cyan-400 to-blue-500",
-    glow: "rgba(6, 182, 212, 0.4)"
-  },
-  { 
-    name: "Node.js", 
-    icon: <SiNodedotjs className="text-green-500" />, 
-    gradient: "from-green-500 to-green-700",
-    glow: "rgba(16, 185, 129, 0.4)"
-  },
-  { 
-    name: "Express", 
-    icon: <SiExpress className="text-gray-600 dark:text-gray-300" />, 
-    gradient: "from-gray-600 to-gray-800 dark:from-gray-400 dark:to-gray-600",
-    glow: "rgba(75, 85, 99, 0.4)"
-  },
-  { 
-    name: "PostgreSQL", 
-    icon: <SiPostgresql className="text-blue-700" />, 
-    gradient: "from-blue-700 to-indigo-800",
-    glow: "rgba(29, 78, 216, 0.4)"
-  },
-  { 
-    name: "Tailwind", 
-    icon: <SiTailwindcss className="text-teal-400" />, 
+  {
+    name: "Tailwind",
+    icon: <SiTailwindcss className="text-white" />,
     gradient: "from-teal-400 to-cyan-600",
     glow: "rgba(20, 184, 166, 0.4)"
   },
-  { 
-    name: "Framer Motion", 
-    icon: <SiFramer className="text-purple-500" />, 
-    gradient: "from-purple-500 to-pink-600",
-    glow: "rgba(168, 85, 247, 0.4)"
+  {
+    name: "JavaScript",
+    icon: <SiJavascript className="text-white" />,
+    gradient: "from-yellow-400 to-yellow-600",
+    glow: "rgba(250, 204, 21, 0.4)"
+  },
+  {
+    name: "TypeScript",
+    icon: <SiTypescript className="text-white" />,
+    gradient: "from-blue-600 to-blue-800",
+    glow: "rgba(37, 99, 235, 0.4)"
+  },
+  {
+    name: "React",
+    icon: <SiReact className="text-white" />,
+    gradient: "from-cyan-400 to-blue-500",
+    glow: "rgba(6, 182, 212, 0.4)"
+  },
+  {
+    name: "Node.js",
+    icon: <SiNodedotjs className="text-white" />,
+    gradient: "from-green-500 to-green-700",
+    glow: "rgba(16, 185, 129, 0.4)"
+  },
+  {
+    name: "Express",
+    icon: <SiExpress className="text-white" />,
+    gradient: "from-gray-500 to-gray-700",
+    glow: "rgba(75, 85, 99, 0.4)"
+  },
+  {
+    name: "PostgreSQL",
+    icon: <SiPostgresql className="text-white" />,
+    gradient: "from-blue-700 to-indigo-800",
+    glow: "rgba(29, 78, 216, 0.4)"
+  },
+  {
+    name: "Flutter & Dart",
+    icon: <SiFlutter className="text-white" />,
+    gradient: "from-sky-400 to-blue-500",
+    glow: "rgba(56, 189, 248, 0.4)"
   },
 ];
 
