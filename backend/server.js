@@ -21,12 +21,13 @@ app.use(helmet());
 // ─── Response compression ────────────────────────────────────────────────────
 app.use(compression());
 
-// ─── Dynamic CORS — reads FRONTEND_URL from env for production ───────────────
+// ─── CORS ─────────────────────────────────────────────────────────────────────
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:4173',
+  'https://portfolio-xlzv.onrender.com', // production frontend
 ];
-if (process.env.FRONTEND_URL) {
+if (process.env.FRONTEND_URL && !allowedOrigins.includes(process.env.FRONTEND_URL)) {
   allowedOrigins.push(process.env.FRONTEND_URL);
 }
 

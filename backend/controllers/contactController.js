@@ -352,7 +352,7 @@ export const submitContact = async (req, res) => {
       });
     } catch (emailErr) {
       console.error("❌ Admin email failed:", emailErr.message);
-      return res.status(500).json({ error: "Message saved but email delivery failed. Please check SMTP configuration." });
+      return res.status(500).json({ error: `Email failed: ${emailErr.message}` });
     }
 
     // 3️⃣ Confirm to user
