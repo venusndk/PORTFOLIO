@@ -101,7 +101,7 @@ const Contact: React.FC = () => {
               
               <div className="relative z-10">
                 <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">
-                  Send a Message
+                  Contact Us
                 </h3>
 
                 <div className="space-y-4 sm:space-y-5">
