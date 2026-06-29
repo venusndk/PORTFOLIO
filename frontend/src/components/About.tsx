@@ -1,36 +1,43 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Target, Users, Sparkles, Zap, Trophy, Briefcase } from "lucide-react";
+import { GraduationCap, BookOpen, Award, PenLine, Baby, Trophy, Briefcase, Users, Sparkles } from "lucide-react";
 
 const About: React.FC = () => {
-  const strengths = [
+  const education = [
     {
-      icon: Target,
-      title: "Problem Solver",
-      description: "Love tackling complex challenges with innovative solutions",
+      icon: GraduationCap,
+      period: "2023–2027",
+      institution: "UNIVERSITY OF RWANDA",
+      detail: "College of Science and Technology",
       gradient: "from-blue-500 via-blue-600 to-indigo-600",
-      bgHover: "hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 dark:hover:from-blue-950/40 dark:hover:to-indigo-950/40",
     },
     {
-      icon: Users,
-      title: "Team Player",
-      description: "Collaborate effectively and communicate clearly with teams",
+      icon: BookOpen,
+      period: "2019–2022",
+      institution: "ADVANCED LEVEL",
+      detail: "Groupe Scolaire Sainte Bernadette de Save . Option: PCM",
       gradient: "from-green-500 via-emerald-600 to-teal-600",
-      bgHover: "hover:bg-gradient-to-r hover:from-green-50 hover:to-teal-50 dark:hover:from-green-950/40 dark:hover:to-teal-950/40",
     },
     {
-      icon: Sparkles,
-      title: "Detail Oriented",
-      description: "Meticulous attention to code quality and user experience",
+      icon: Award,
+      period: "2016–2018",
+      institution: "ORDINARY LEVEL",
+      detail: "Groupe Scolaire Saint Dominico Savio Kibangu",
       gradient: "from-purple-500 via-fuchsia-600 to-pink-600",
-      bgHover: "hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 dark:hover:from-purple-950/40 dark:hover:to-pink-950/40",
     },
     {
-      icon: Zap,
-      title: "Fast Learner",
-      description: "Quickly adapt and master emerging technologies",
+      icon: PenLine,
+      period: "2010–2015",
+      institution: "PRIMARY LEVEL",
+      detail: "Ecole Primaire Rubona II",
       gradient: "from-orange-500 via-amber-600 to-yellow-600",
-      bgHover: "hover:bg-gradient-to-r hover:from-orange-50 hover:to-yellow-50 dark:hover:from-orange-950/40 dark:hover:to-yellow-950/40",
+    },
+    {
+      icon: Baby,
+      period: "2009",
+      institution: "NURSERY",
+      detail: "",
+      gradient: "from-pink-500 via-rose-500 to-red-500",
     },
   ];
 
@@ -115,11 +122,15 @@ const About: React.FC = () => {
               <div className="relative">
                 <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5 mb-6">
                   <motion.div
-                    whileHover={{ rotate: 360, scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-xl flex-shrink-0 mx-auto sm:mx-0"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.3 }}
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-0.5 shadow-xl flex-shrink-0 mx-auto sm:mx-0 overflow-hidden"
                   >
-                    <span className="text-2xl sm:text-4xl">👨‍💻</span>
+                    <img
+                      src="/assets/ven.jpg"
+                      alt="Venuste NDIKUMANA"
+                      className="w-full h-full object-cover rounded-2xl"
+                    />
                   </motion.div>
                   <div className="text-center sm:text-left">
                     <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-gray-900 dark:text-white mb-2">
@@ -135,6 +146,10 @@ const About: React.FC = () => {
                   <span className="font-bold text-green-600 dark:text-green-400">Node.js</span>,{" "}
                   <span className="font-bold text-gray-700 dark:text-gray-300">Express</span>, and{" "}
                   <span className="font-bold text-indigo-600 dark:text-indigo-400">PostgreSQL</span>.
+                  <br />
+                  I also build cross-platform mobile applications using{" "}
+                  <span className="font-bold text-cyan-500 dark:text-cyan-400">Flutter</span> with{" "}
+                  <span className="font-bold text-blue-500 dark:text-blue-300">Dart</span>.
                 </p>
 
                 <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
@@ -190,7 +205,7 @@ const About: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Right: Strengths */}
+          {/* Right: Education */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -199,45 +214,45 @@ const About: React.FC = () => {
             className="relative group bg-white dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-blue-500/10 dark:hover:shadow-blue-500/20 transition-all duration-500"
           >
             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-20 blur transition-opacity duration-500"></div>
-            
+
             <div className="relative">
               <div className="flex items-center justify-between mb-6 sm:mb-8">
                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400">
-                  My Strengths
+                  Education
                 </h3>
               </div>
 
-              <div className="space-y-3 sm:space-y-4">
-                {strengths.map((strength, index) => (
-                  <motion.div
-                    key={strength.title}
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.02, x: 8 }}
-                    className={`group/item flex items-center gap-3 sm:gap-4 lg:gap-5 p-3 sm:p-4 lg:p-5 rounded-xl sm:rounded-2xl transition-all duration-300 border border-transparent hover:border-gray-200 dark:hover:border-gray-600 ${strength.bgHover} cursor-pointer`}
-                  >
-                    <div className={`w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-lg sm:rounded-xl bg-gradient-to-br ${strength.gradient} flex items-center justify-center shadow-lg group-hover/item:shadow-2xl group-hover/item:scale-110 transition-all duration-300 flex-shrink-0`}>
-                      <strength.icon className="text-white sm:w-6 lg:w-7" size={20} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-black text-base sm:text-lg lg:text-xl text-gray-900 dark:text-white mb-1 sm:mb-1.5 group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors truncate">
-                        {strength.title}
-                      </h4>
-                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium line-clamp-2">
-                        {strength.description}
-                      </p>
-                    </div>
+              <div className="relative">
+                <div className="space-y-3 sm:space-y-4">
+                  {education.map((edu, index) => (
                     <motion.div
-                      initial={{ opacity: 0, x: -10 }}
-                      whileHover={{ opacity: 1, x: 0 }}
-                      className="text-lg sm:text-xl text-gray-400 dark:text-gray-600 flex-shrink-0"
+                      key={edu.period}
+                      initial={{ opacity: 0, x: 30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      whileHover={{ scale: 1.02, x: 6 }}
+                      className="group/item flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl transition-all duration-300 border border-transparent hover:border-gray-200 dark:hover:border-gray-600 hover:bg-gray-50/80 dark:hover:bg-gray-700/30 cursor-default"
                     >
-                      →
+                      <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl bg-gradient-to-br ${edu.gradient} flex items-center justify-center shadow-lg group-hover/item:shadow-2xl group-hover/item:scale-110 transition-all duration-300 flex-shrink-0`}>
+                        <edu.icon className="text-white" size={20} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <span className={`text-xs font-black bg-clip-text text-transparent bg-gradient-to-r ${edu.gradient}`}>
+                          {edu.period}
+                        </span>
+                        <h4 className="font-black text-sm sm:text-base text-gray-900 dark:text-white leading-tight group-hover/item:text-blue-600 dark:group-hover/item:text-blue-400 transition-colors">
+                          {edu.institution}
+                        </h4>
+                        {edu.detail && (
+                          <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mt-0.5">
+                            {edu.detail}
+                          </p>
+                        )}
+                      </div>
                     </motion.div>
-                  </motion.div>
-                ))}
+                  ))}
+                </div>
               </div>
 
               {/* Bottom Accent */}
@@ -245,14 +260,8 @@ const About: React.FC = () => {
                 <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3 sm:mb-4">
                   <div className="h-0.5 sm:h-1 flex-1 bg-gradient-to-r from-transparent via-blue-500 to-purple-500 rounded-full"></div>
                   <motion.div
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                    }}
+                    animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 2, repeat: Infinity }}
                     className="w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"
                   />
                   <div className="h-0.5 sm:h-1 flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-transparent rounded-full"></div>

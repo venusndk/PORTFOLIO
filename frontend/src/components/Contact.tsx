@@ -83,18 +83,18 @@ const Contact: React.FC = () => {
         </motion.div>
 
         {/* Form + Info Grid */}
-        <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 items-start">
+        <div className="grid lg:grid-cols-5 gap-6 lg:gap-8 items-stretch">
           {/* Contact Form - Takes 3 columns */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="lg:col-span-3"
+            className="lg:col-span-3 flex flex-col"
           >
             <form
               onSubmit={handleSubmit}
-              className="bg-white/5 backdrop-blur-xl border border-white/10 p-5 sm:p-8 lg:p-10 rounded-3xl shadow-2xl space-y-6 relative overflow-hidden group hover:bg-white/8 transition-all duration-300"
+              className="flex-1 bg-white/5 backdrop-blur-xl border border-white/10 p-5 sm:p-8 lg:p-10 rounded-3xl shadow-2xl space-y-6 relative overflow-hidden group hover:bg-white/8 transition-all duration-300"
             >
               {/* Decorative corner */}
               <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
@@ -228,7 +228,7 @@ const Contact: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="lg:col-span-2 space-y-4 sm:space-y-6"
+            className="lg:col-span-2 flex flex-col gap-4 sm:gap-6"
           >
             {/* Location Card */}
             <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-4 sm:p-6 rounded-2xl shadow-xl hover:bg-white/8 transition-all duration-300 group">
@@ -282,8 +282,8 @@ const Contact: React.FC = () => {
 
             {/* Map */}
             <motion.div
-              className="rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-              whileHover={{ scale: 1.02 }}
+              className="flex-1 min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+              whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.3 }}
             >
               <iframe
@@ -291,11 +291,11 @@ const Contact: React.FC = () => {
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63902.49006753492!2d29.5949!3d-1.5007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dc5a43629d20ad%3A0xcedbfcad56509e1b!2sRuhengeri!5e0!3m2!1sen!2srw!4v1734712312345!5m2!1sen!2srw"
                 width="100%"
                 height="100%"
-                style={{ border: 0 }}
+                style={{ border: 0, minHeight: "200px" }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-36 sm:h-44 lg:h-52 grayscale hover:grayscale-0 transition-all duration-500 block"
+                className="w-full h-full block"
               />
             </motion.div>
           </motion.div>
