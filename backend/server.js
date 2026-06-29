@@ -11,6 +11,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// ─── Trust proxy — required on Render (sits behind a load balancer) ──────────
+// Without this, express-rate-limit throws ERR_ERL_UNEXPECTED_X_FORWARDED_FOR
+app.set('trust proxy', 1);
+
 // ─── Security headers ────────────────────────────────────────────────────────
 app.use(helmet());
 
