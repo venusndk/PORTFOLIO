@@ -5,11 +5,13 @@ dotenv.config();
 
 const { Pool } = pkg;
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const poolConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
-      // Render PostgreSQL requires SSL; rejectUnauthorized:false accepts self-signed certs
-      ssl: { rejectUnauthorized: false },
+      // SSL required on Render, not needed locally
+      ssl: isProduction ? { rejectUnauthorized: false } : false,
     }
   : {
       user: process.env.DB_USER || "postgres",
