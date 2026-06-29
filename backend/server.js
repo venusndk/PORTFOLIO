@@ -47,6 +47,15 @@ const contactLimiter = rateLimit({
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.use("/api/contacts", contactLimiter, contactRoutes);
 
+// ─── Root ────────────────────────────────────────────────────────────────────
+app.get("/", (req, res) => {
+  res.status(200).json({
+    name: "VenNDIK Portfolio API",
+    status: "running",
+    endpoints: ["/health", "/api/contacts/contact"],
+  });
+});
+
 // ─── Health check ────────────────────────────────────────────────────────────
 app.get("/health", (req, res) => {
   res.status(200).json({
