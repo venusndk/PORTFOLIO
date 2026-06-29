@@ -325,44 +325,53 @@ export const submitContact = async (req, res) => {
       return res.status(400).json({ error: "Name, email, and message are required" });
     }
 
+    // 1️⃣ Save contact (DB with local fallback)
     let newContact = null;
-
     try {
       newContact = await saveContact(name, email, subject || "", message);
     } catch (storageError) {
       console.error("❌ Error saving contact:", storageError);
     }
 
-    // 1️⃣ Notify admin
-    if (process.env.MY_EMAIL) {
+    // 2️⃣ Notify admin
+    if (!process.env.MY_EMAIL || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.warn("⚠️ Email env vars missing (MY_EMAIL / SMTP_USER / SMTP_PASS) — skipping emails");
+      return res.status(201).json({
+        success: true,
+        message: "Message received (email delivery skipped — SMTP not configured)",
+        data: newContact,
+      });
+    }
+
+    try {
       await sendEmail({
         to: process.env.MY_EMAIL,
         subject: `New Portfolio Message from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject || "N/A"}\nMessage:\n${message}`,
         html: adminEmailHtml({ name, email, subject, message }),
       });
-    } else {
-      console.warn("❌ MY_EMAIL is not defined in .env");
+    } catch (emailErr) {
+      console.error("❌ Admin email failed:", emailErr.message);
+      return res.status(500).json({ error: "Message saved but email delivery failed. Please check SMTP configuration." });
     }
 
-    // 2️⃣ Confirm to user
-    if (email) {
+    // 3️⃣ Confirm to user
+    try {
       await sendEmail({
         to: email,
         subject: `Message Received — Venuste NDIKUMANA`,
         text: `Hi ${name},\n\nThank you for reaching out. I have received your message and will get back to you within 1 hour.\n\nWarm regards,\nVenuste NDIKUMANA`,
         html: userEmailHtml({ name, subject, message }),
       });
-    } else {
-      console.warn("❌ User email is empty, skipping confirmation email");
+    } catch (emailErr) {
+      console.error("❌ User confirmation email failed:", emailErr.message);
     }
 
     res.status(201).json({
       success: true,
-      message:
-        newContact?.storage === "local-file"
-          ? "Message received. PostgreSQL was unavailable — submission stored locally and emails processed."
-          : "Message received successfully",
+      message: newContact?.storage === "local-file"
+        ? "Message received (stored locally — DB unavailable)"
+        : "Message received successfully",
       data: newContact,
     });
   } catch (error) {
