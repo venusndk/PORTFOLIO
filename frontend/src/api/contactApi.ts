@@ -1,5 +1,5 @@
 // src/api/contactApi.ts
-const API_URL = "http://localhost:5000/api/contacts";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
 export const submitContact = async (data: {
   name: string;
@@ -8,7 +8,7 @@ export const submitContact = async (data: {
   message: string;
 }) => {
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_BASE}/api/contacts/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

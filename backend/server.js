@@ -1,5 +1,8 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
+import compression from "compression";
+import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import { pool } from "./db/pool.js";
 import contactRoutes from "./routes/contactRoutes.js";
@@ -8,31 +11,58 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enhanced CORS for production
-const corsOptions = {
-  origin: [
-    'http://localhost:5173',
-    'https://your-frontend.vercel.app' // We'll update this after Vercel deployment
-  ],
+// ─── Security headers ────────────────────────────────────────────────────────
+app.use(helmet());
+
+// ─── Response compression ────────────────────────────────────────────────────
+app.use(compression());
+
+// ─── Dynamic CORS — reads FRONTEND_URL from env for production ───────────────
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:4173',
+];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
+app.use(cors({
+  origin: allowedOrigins,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
-};
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 
-app.use(cors(corsOptions));
-app.use(express.json());
+// ─── Body parsing ────────────────────────────────────────────────────────────
+app.use(express.json({ limit: '10kb' }));
 
-// Routes
-app.use("/api/contacts", contactRoutes);
+// ─── Rate limiting (contact form — 10 req / 15 min per IP) ───────────────────
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' },
+});
 
-// Health check route
+// ─── Routes ──────────────────────────────────────────────────────────────────
+app.use("/api/contacts", contactLimiter, contactRoutes);
+
+// ─── Health check ────────────────────────────────────────────────────────────
 app.get("/health", (req, res) => {
-  res.status(200).json({ 
-    status: "OK", 
+  res.status(200).json({
+    status: "OK",
     message: "Server is running",
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
+// ─── Centralised error handler ───────────────────────────────────────────────
+app.use((err, req, res, _next) => {
+  console.error("❌ Unhandled error:", err.message);
+  res.status(500).json({ error: "Internal server error" });
+});
+
+// ─── Database init ───────────────────────────────────────────────────────────
 const ensureContactsTable = async () => {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS contacts (
@@ -46,7 +76,6 @@ const ensureContactsTable = async () => {
   `);
 };
 
-// Test DB connection, but keep the app alive if PostgreSQL is unavailable.
 pool
   .query("SELECT 1")
   .then(async () => {
@@ -58,7 +87,19 @@ pool
     console.warn(err.message);
   });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+// ─── Graceful shutdown ───────────────────────────────────────────────────────
+const server = app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });
+
+const shutdown = async (signal) => {
+  console.log(`${signal} received — shutting down gracefully`);
+  server.close(async () => {
+    await pool.end();
+    console.log("✅ Database pool closed. Exiting.");
+    process.exit(0);
+  });
+};
+
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));

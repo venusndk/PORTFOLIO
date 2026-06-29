@@ -8,10 +8,8 @@ const { Pool } = pkg;
 const poolConfig = process.env.DATABASE_URL
   ? {
       connectionString: process.env.DATABASE_URL,
-      ssl:
-        process.env.PGSSLMODE === "require" || process.env.PGSSL === "true"
-          ? { rejectUnauthorized: false }
-          : undefined,
+      // Render PostgreSQL requires SSL; rejectUnauthorized:false accepts self-signed certs
+      ssl: { rejectUnauthorized: false },
     }
   : {
       user: process.env.DB_USER || "postgres",
