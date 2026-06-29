@@ -1,26 +1,28 @@
 // utils/sendEmail.js
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
 export const sendEmail = async ({ to, subject, text, html }) => {
-  const apiKey = process.env.RESEND_API_KEY;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  const host = process.env.SMTP_HOST || "smtp.gmail.com";
+  const port = parseInt(process.env.SMTP_PORT || "465", 10);
 
-  if (!apiKey) {
-    throw new Error("RESEND_API_KEY is not set in environment variables");
+  if (!user || !pass) {
+    throw new Error(`SMTP credentials missing`);
   }
 
-  const resend = new Resend(apiKey);
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: { user, pass },
+  });
 
-  const { data, error } = await resend.emails.send({
-    from: "Portfolio Contact <onboarding@resend.dev>",
+  const info = await transporter.sendMail({
+    from: `"Portfolio Contact" <${user}>`,
     to,
     subject,
     text,
     html,
   });
 
-  if (error) {
-    throw new Error(`Resend error: ${error.message}`);
-  }
-
-  console.log("✅ Email sent:", data.id);
+  console.log("✅ Email sent:", info.messageId);
 };

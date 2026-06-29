@@ -333,16 +333,7 @@ export const submitContact = async (req, res) => {
       console.error("❌ Error saving contact:", storageError);
     }
 
-    // 2️⃣ Notify admin
-    if (!process.env.MY_EMAIL || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.warn("⚠️ Email env vars missing (MY_EMAIL / SMTP_USER / SMTP_PASS) — skipping emails");
-      return res.status(201).json({
-        success: true,
-        message: "Message received (email delivery skipped — SMTP not configured)",
-        data: newContact,
-      });
-    }
-
+    // 2️⃣ Send emails — failures are logged but never shown to the user
     try {
       await sendEmail({
         to: process.env.MY_EMAIL,
@@ -352,10 +343,8 @@ export const submitContact = async (req, res) => {
       });
     } catch (emailErr) {
       console.error("❌ Admin email failed:", emailErr.message);
-      return res.status(500).json({ error: `Email failed: ${emailErr.message}` });
     }
 
-    // 3️⃣ Confirm to user
     try {
       await sendEmail({
         to: email,
