@@ -6,6 +6,7 @@ import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import { pool } from "./db/pool.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import visitorRoutes from "./routes/visitorRoutes.js";
 import { verifyEmailConfig } from "./utils/sendEmail.js";
 
 dotenv.config();
@@ -52,13 +53,14 @@ const contactLimiter = rateLimit({
 
 // ─── Routes ──────────────────────────────────────────────────────────────────
 app.use("/api/contacts", contactLimiter, contactRoutes);
+app.use("/api/visitors", visitorRoutes);
 
 // ─── Root ────────────────────────────────────────────────────────────────────
 app.get("/", (req, res) => {
   res.status(200).json({
     name: "VenNDIK Portfolio API",
     status: "running",
-    endpoints: ["/health", "/api/contacts/contact"],
+    endpoints: ["/health", "/api/contacts/contact", "/api/visitors/track", "/api/visitors"],
   });
 });
 
@@ -78,7 +80,7 @@ app.use((err, req, res, _next) => {
 });
 
 // ─── Database init ───────────────────────────────────────────────────────────
-const ensureContactsTable = async () => {
+const ensureTables = async () => {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS contacts (
       id SERIAL PRIMARY KEY,
@@ -89,16 +91,34 @@ const ensureContactsTable = async () => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `);
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS visitors (
+      id SERIAL PRIMARY KEY,
+      ip_address VARCHAR(45),
+      country VARCHAR(100),
+      country_code VARCHAR(10),
+      city VARCHAR(100),
+      region VARCHAR(100),
+      isp VARCHAR(255),
+      user_agent TEXT,
+      browser VARCHAR(100),
+      os VARCHAR(100),
+      device VARCHAR(50),
+      referrer TEXT,
+      session_id VARCHAR(64),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
 };
 
 pool
   .query("SELECT 1")
   .then(async () => {
-    await ensureContactsTable();
+    await ensureTables();
     console.log("✅ Connected to PostgreSQL database successfully");
   })
   .catch((err) => {
-    console.warn("⚠️ PostgreSQL connection failed. Contact submissions will fall back to local storage.");
+    console.warn("⚠️ PostgreSQL connection failed. Submissions will fall back to local storage.");
     console.warn(err.message);
   });
 
