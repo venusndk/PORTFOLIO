@@ -325,36 +325,38 @@ export const submitContact = async (req, res) => {
       return res.status(400).json({ error: "Name, email, and message are required" });
     }
 
-    // 1️⃣ Save contact (DB with local fallback)
-    let newContact = null;
-    try {
-      newContact = await saveContact(name, email, subject || "", message);
-    } catch (storageError) {
-      console.error("❌ Error saving contact:", storageError);
-    }
-
-    // 2️⃣ Send emails — failures are logged but never shown to the user
-    try {
-      await sendEmail({
+    // 1️⃣ + 2️⃣  Save contact AND send both emails in parallel.
+    // Promise.allSettled lets all three run simultaneously; individual
+    // failures are logged without preventing the others from completing.
+    const [contactResult, adminEmailResult, userEmailResult] = await Promise.allSettled([
+      saveContact(name, email, subject || "", message),
+      sendEmail({
         to: process.env.MY_EMAIL,
         subject: `New Portfolio Message from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject || "N/A"}\nMessage:\n${message}`,
         html: adminEmailHtml({ name, email, subject, message }),
-      });
-    } catch (emailErr) {
-      console.error("❌ Admin email failed:", emailErr.message);
-    }
-
-    try {
-      await sendEmail({
+      }),
+      sendEmail({
         to: email,
         subject: `Message Received — Venuste NDIKUMANA`,
         text: `Hi ${name},\n\nThank you for reaching out. I have received your message and will get back to you within 1 hour.\n\nWarm regards,\nVenuste NDIKUMANA`,
         html: userEmailHtml({ name, subject, message }),
-      });
-    } catch (emailErr) {
-      console.error("❌ User confirmation email failed:", emailErr.message);
+      }),
+    ]);
+
+    if (contactResult.status === "rejected") {
+      console.error("❌ Error saving contact:", contactResult.reason);
     }
+
+    if (adminEmailResult.status === "rejected") {
+      console.error("❌ Admin email failed:", adminEmailResult.reason?.message || adminEmailResult.reason);
+    }
+
+    if (userEmailResult.status === "rejected") {
+      console.error("❌ User confirmation email failed:", userEmailResult.reason?.message || userEmailResult.reason);
+    }
+
+    const newContact = contactResult.status === "fulfilled" ? contactResult.value : null;
 
     res.status(201).json({
       success: true,

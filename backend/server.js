@@ -6,6 +6,7 @@ import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import { pool } from "./db/pool.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import { verifyEmailConfig } from "./utils/sendEmail.js";
 
 dotenv.config();
 const app = express();
@@ -102,8 +103,10 @@ pool
   });
 
 // ─── Graceful shutdown ───────────────────────────────────────────────────────
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
   console.log(`✅ Server running on port ${PORT}`);
+  // Verify SMTP on startup so misconfiguration is visible in logs immediately
+  await verifyEmailConfig();
 });
 
 const shutdown = async (signal) => {

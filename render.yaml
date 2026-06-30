@@ -22,15 +22,19 @@ services:
           property: connectionString
       - key: JWT_SECRET
         generateValue: true
+      - key: RESEND_API_KEY
+        sync: false
+      - key: FROM_EMAIL
+        sync: false
+      - key: MY_EMAIL
+        sync: false
       - key: SMTP_HOST
-        sync: false
+        value: smtp.gmail.com
       - key: SMTP_PORT
-        sync: false
+        value: 465
       - key: SMTP_USER
         sync: false
       - key: SMTP_PASS
-        sync: false
-      - key: MY_EMAIL
         sync: false
 
   # ─────────────────────────────────────────────
