@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { fetchVisitors, Visitor } from "../api/visitorApi";
+import { fetchVisitors } from "../api/visitorApi";
+import type { Visitor } from "../api/visitorApi";
 
 // Convert ISO country code to flag emoji
 const flag = (code: string) =>
@@ -41,8 +42,17 @@ const LoginScreen: React.FC<{ onLogin: (pw: string) => void; error: string }> = 
         className="w-full max-w-sm bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-xl"
       >
         <div className="text-center mb-8">
-          <div className="text-5xl mb-3">🛡️</div>
-          <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
+          <div className="flex justify-center mb-4">
+            <div className="relative inline-flex">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-xl" />
+              <div className="relative m-[1.5px] bg-gray-950 rounded-[10px] px-3 py-1.5">
+                <span className="text-2xl font-black tracking-tight">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">Ven</span>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600">NDIK</span>
+                </span>
+              </div>
+            </div>
+          </div>
           <p className="text-gray-400 text-sm mt-1">Portfolio visitor analytics</p>
         </div>
         <form
@@ -108,14 +118,16 @@ const AdminPanel: React.FC = () => {
   const [loading, setLoading]       = useState(false);
   const [fetchError, setFetchError] = useState("");
   const [search, setSearch]         = useState("");
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const load = useCallback(async (pw: string) => {
-    setLoading(true);
+  const load = useCallback(async (pw: string, silent = false) => {
+    if (!silent) setLoading(true);
     setFetchError("");
     try {
       const data = await fetchVisitors(pw);
       setVisitors(data.visitors);
       setTotal(data.total);
+      setLastUpdated(new Date());
       setAuthed(true);
       sessionStorage.setItem("vnd_admin_pw", pw);
     } catch (err: unknown) {
@@ -127,7 +139,7 @@ const AdminPanel: React.FC = () => {
         setFetchError(msg);
       }
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   }, []);
 
@@ -135,6 +147,13 @@ const AdminPanel: React.FC = () => {
   useEffect(() => {
     if (password) load(password);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Real-time polling — silently refresh every 10 seconds
+  useEffect(() => {
+    if (!authed || !password) return;
+    const interval = setInterval(() => load(password, true), 10000);
+    return () => clearInterval(interval);
+  }, [authed, password, load]);
 
   const handleLogin = (pw: string) => {
     setPassword(pw);
@@ -170,10 +189,25 @@ const AdminPanel: React.FC = () => {
       <div className="border-b border-white/10 bg-white/5 backdrop-blur-xl sticky top-0 z-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">🛡️</span>
+            <div className="relative inline-flex">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-lg" />
+              <div className="relative m-[1.5px] bg-gray-950 rounded-[7px] px-2 py-1">
+                <span className="text-base font-black tracking-tight">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-500 via-emerald-400 to-green-600">Ven</span>
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600">NDIK</span>
+                </span>
+              </div>
+            </div>
             <div>
-              <h1 className="font-bold text-lg leading-none">Admin Panel</h1>
-              <p className="text-gray-400 text-xs">Visitor Analytics</p>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <p className="text-green-400 text-xs font-medium">Live</p>
+              </div>
+              {lastUpdated && (
+                <p className="text-gray-500 text-xs">
+                  Updated {lastUpdated.toLocaleTimeString()}
+                </p>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -182,7 +216,14 @@ const AdminPanel: React.FC = () => {
               disabled={loading}
               className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-sm font-medium transition-all disabled:opacity-50 flex items-center gap-2"
             >
-              {loading ? "⏳" : "🔄"} Refresh
+              <motion.span
+                animate={loading ? { rotate: 360 } : { rotate: 0 }}
+                transition={loading ? { duration: 1, repeat: Infinity, ease: "linear" } : {}}
+                className="inline-block"
+              >
+                🔄
+              </motion.span>
+              Refresh
             </button>
             <a
               href="/"
