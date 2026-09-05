@@ -159,7 +159,7 @@ return (
               {[
                 { 
                   label: "LinkedIn", 
-                  href: "https://www.linkedin.com/in/ndikumana-venuste-985b4928a/",
+                  href: "https://www.linkedin.com/in/venus-dev-985b4928a/",
                   icon: Linkedin,
                   color: "text-blue-500"
                 },
